@@ -1,28 +1,36 @@
-# Adonis API application
+# Clã Verder Vamos laaaa!
 
-This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
+# Adonis API para o Projeto Hcodelab - Fase 6
+## Vamos construir Aqui a API (backend) do projeto 
 
-1. Bodyparser
-2. Authentication
-3. CORS
-4. Lucid ORM
-5. Migrations and seeds
+Ola pessoal neste repositorio vamos ter o codigo do backend da nossa aplicação com o adonis.
+
 
 ## Setup
 
-Use the adonis command to install the blueprint
+Vamos usar os comando do adonis para criar a nossa aplicação.
+Os arquivos iniciais ja estao aqui no repositorio então so precisa clonar ele na sua maquina
 
+### Clonando o repositorio
+Para clonar o repositorio utilize o comando abaixo.
 ```bash
-adonis new yardstick --api-only
+git clone github.com:meirelesdev/projetoacademia-backend.git
 ```
 
-or manually clone the repo and then run `npm install`.
+### Iniciando o projeto na sua maquina
 
+Apos clona o repositorio entre na pasta criada em sua maquina e execute o comando abaixo, este comando ira installar as dependencias que estao no arquivo package.json.
+```bash
+npm install
+```
 
-### Migrations
+### Rodando o projeto
 
-Run the following command to run startup migrations.
+Para rodar o projeto no local vamos entra na pasta do projeto e rodar o comando:
+
 
 ```js
-adonis migration:run
+adonis serve --dev
 ```
+
+O projeto esta configurado para rodar na porta 3333 no localhost, não esqueca, o arquivo .env é responsavel pelas configurações no localhost, tais como banco de dados, acesso ao MySql entre outras.
