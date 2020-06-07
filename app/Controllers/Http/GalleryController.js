@@ -24,6 +24,7 @@ class GalleryController {
     
     // Aqui estamos pegando somente o title e a description,
     // Pois o arquivo vamos tratar e salvar e depois enviar para o data.url o caminho dele
+    console.log({...request})
     
     const data = request.only(['title','description'])
    // SALVANDO A FOTO
@@ -68,16 +69,16 @@ class GalleryController {
   }
 
   // Este metodo é chamado para pegar uma foto 
-    async getPhoto({ params, response }) {
-    // Pegamos o id passado no params pelo usuario
-    // E pesquisamos no banco o registro com este nome
-    const photo = await Gallery.findOrFail(params.id)
-      //pedimos para o noje ler dentro da pasta resources e ver se tem
-      // Alguma fot com o nome registrado no banco caso tenha ele armazena o arquivo
+  async getPhoto({ params, response }) {
+      // Pegamos o id passado no params pelo usuario
+      // E pesquisamos no banco o registro com este nome
+      const photo = await Gallery.findOrFail(params.id)
+        //pedimos para o noje ler dentro da pasta resources e ver se tem
+        // Alguma fot com o nome registrado no banco caso tenha ele armazena o arquivo
 
-    const content = await readFile(Helpers.resourcesPath(photo.url))
-      //A qui temos a resposta sendo colocada no cadeçalho da resposta
-    response.header('Content-type', 'image/*').send(content)  
+      const content = await readFile(Helpers.resourcesPath(photo.url))
+        //A qui temos a resposta sendo colocada no cadeçalho da resposta
+      response.header('Content-type', 'image/*').send(content)  
 
   }
 

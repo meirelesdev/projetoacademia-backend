@@ -22,14 +22,16 @@ Route.get('/', () => {
 
 //Rota para listar todos os posts
 Route.get('/posts', 'PostController.index')
+// Rota para pegar a foto do post
+Route.get('/posts/:id/photo', 'PostController.getPhotoPost')
 // Rota para Mostrar um post especifico
 Route.get('/posts/:id', 'PostController.show')
 // Rota para criar um novo post  --VAI PRECISAR DE UM Middleware
-Route.post('/posts', 'PostController.store')
+Route.post('/admin/posts', 'PostController.store')
 // Rota para editar um post -- VAI PRECISAR DE Um Middleware
-Route.put('/posts/:id', 'PostController.update')
+Route.put('/admin/posts/:id', 'PostController.update')
 // Rota para deletar um post -- VAI PRECISAR DE Um Middleware
-Route.delete('/posts/:id', 'PostController.destroy')
+Route.delete('/admin/posts/:id', 'PostController.destroy')
 
 //Rotas para gallery
       // Esta rota é para salvar uma nova foto na galeria

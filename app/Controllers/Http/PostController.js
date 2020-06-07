@@ -1,14 +1,23 @@
 'use strict'
 
 const Post = use('App/Models/Post')
+const User = use('App/Models/User')
 // importação da lib slug
 const Slug = require('slug')
+const Helpers = use('Helpers')
+const fs = use('fs')
+const readFile = Helpers.promisify(fs.readFile)
+const uploadDir = 'photoposts'
 
 class PostController {
   
   // Lista todos os posts, funcao é chamada na rota /posts
-  async index () {
-    return await Post.all()
+  async index ( { response } ) {
+    
+    const posts = await Post.all()
+    // return await Post.all()
+
+    response.send(posts)
   }
   // Função para criar novo post
   async store ({ request }) {
@@ -18,30 +27,72 @@ class PostController {
       // table.text('body').notNullable()
       // table.string('photo', 254)
       // table.integer('author')
-    // Espero receber, [title, body, photo, author] do frontend
-    const dataPost = await request.only(['title','body','photo'])
+    
+      //o request.autho sera atribuido no frontend com o usuario que estiver logado
+    const dataPost = request.only(['title','body', 'author'])
+
+    //Aqui vamos buscar o criador do post no momento
+      /**
+     * Falta implementar o author antes de salvar
+     *
+     * 
+     * /
+    // dataPost.author = await User.findOrFail(dataPost.author)
+      
+    /**Salvando a imagem do post */
+    const filePost = request.file('file', {
+      maxSize: '2mb',
+      allowedExtensions: ['jpg', 'png', 'jpeg']
+    })
+    
+    // 
+    // A função new Date.now() nos dara uma combilação numerica que nao se repetira 
+    // Fazendo com que cada arquivo tenha um nome diferente
+    const name = `${Date.now()}_post.${filePost.extname}`
+    // Aqui estamos movendo o arquivo da pasta temporaria para o servidor
+    await filePost.move(Helpers.resourcesPath(uploadDir), {
+      name,
+      overwrite: true
+    })
+    // Verificando se o arquivo foi movido para a pasta 
+    // para vc verificar, ele sera salvo em resources/photposts/nomedoarquivo
+    if (!filePost.moved()) {
+      // Caso nao, retorna um JSON com o erro
+      response.status(400).json({'error': filePost.error()})
+      return
+    }
+    // TERMINOU DE SALVAR A FOTO
+
+    //Atribuindo o caminho da foto, para salvar no banco
+    dataPost.photo = `${uploadDir}/${name}`
+    
     // Criando o slug do post
     dataPost.slug = Slug(dataPost.title)
-
-    /**
-     * Falta implementar o author antes de salvar
-     */
 
     // Salvando os dados no banco
     const post = await Post.create(dataPost)
     
     return post
   }
-// Recebe o id do post como parametro pela URl
-/**
- *  Implementar slug para usar no parametro pois em um blog
- *  normalmente se usa o titulo do post como url
- */
-  async show ({ params }) {
+
+  async show ({ params, response }) {
+    response.implicitEnd = false
     
     const post  = await Post.findOrFail(params.id)
     
-    return post
+    response.send(post)
+  }
+
+  async getPhotoPost({ params, response }) {
+    // Pegamos o id passado no params pelo usuario
+      // E pesquisamos no banco o registro com este nome
+      const post = await Post.findOrFail(params.id)
+        //pedimos para o noje ler dentro da pasta resources e ver se tem
+        // Alguma fot com o nome registrado no banco caso tenha ele armazena o arquivo
+
+      const content = await readFile(Helpers.resourcesPath(post.photo))
+        //A qui temos a resposta sendo colocada no cadeçalho da resposta
+      response.header('Content-type', 'image/*').send(content)  
   }
 
   async update ({ params, request }) {
