@@ -50,6 +50,7 @@ class UserController {
 
 
     async show({ params }){
+      
         const user = await User.findOrFail(params.id)
 
         return user
@@ -103,7 +104,7 @@ class UserController {
 
       const user = await User.findOrFail(params.id)
 
-      const name = `${user.id}/${new Date.now()}_photo.${photo.extname}`
+      const name = `${user.id}/${Date.now()}_photo.${photo.extname}`
 
       await photo.move(Helpers.resourcesPath(uploadDir), {
         name,

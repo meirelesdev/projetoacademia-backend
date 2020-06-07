@@ -8,19 +8,16 @@ const fs = use('fs')
 // Esta constante ainda nao sei bem para que serve mas acredito que é o metodo do fs
 // que realmente este o arquivo no servidor
 const readFile = Helpers.promisify(fs.readFile)
-
+// Pasta onde sera salvo os arquivos
 const uploadDir = 'gallery'
 
 class GalleryController {
 
   async index ({ request, response, view }) {
   }
-  async savePhoto({ request }){
- 
-  }
   async store ({ request, response }){
     /**ESPERO RECEBERESTES CAMPOS AO CADASTRAR UMA FOTO */
-    // string('title',254).notNullable()
+    // string('title',254)
     // string('description',254)
     /** O CAMPO URL SERA PREENCHIDO QUANDO A FOTO FOR SALVA */
     // string('url',254).notNullable().unique()
@@ -38,18 +35,18 @@ class GalleryController {
     })
 
     // Neste if verificamos se o arquivos passo pelos requisitos a cima
-    if (!filePhoto) {
+    if (!filePhoto) {        
       // Caso nao a resposta sera um json com este error
       response.status(400).json({error:'File required!'})
       return
-    } 
+    }
     // Apos passar a verificação acima criamos um nome para o arquivo
     // A função new Date.now() nos dara uma combilação numerica que nao se repetira 
     // Fazendo com que cada arquivo tenha um nome diferente
-    const fileName = `${ Date.now() }_gallery.${filePhoto.extname}`
+    const name = `${Date.now()}_gallery.${filePhoto.extname}`
     // Aqui estamos movendo o arquivo da pasta temporaria para o servidor
     await filePhoto.move(Helpers.resourcesPath(uploadDir), {
-      fileName,
+      name,
       overwrite: true
     })
     // Verificando se o arquivo foi movido para a pasta 
@@ -62,7 +59,7 @@ class GalleryController {
     // TERMINOU DE SALVAR A FOTO
     
     // apos salvar o arquivo ja temos o caminho dele entao podemos adicionar a url no data
-    data.url = `${uploadDir}/${fileName}`
+    data.url = `${uploadDir}/${name}`
     // Aqui pedimos para o adonis salvar um novo registro na tabela gallery
     // e retorna-lo para a constante photo
     const photo = await Gallery.create(data)
@@ -70,62 +67,20 @@ class GalleryController {
     return photo
   }
 
-  // async photo({ params, response }) {
-    async show({ params, response }) {
-      
+  // Este metodo é chamado para pegar uma foto 
+    async getPhoto({ params, response }) {
+    // Pegamos o id passado no params pelo usuario
+    // E pesquisamos no banco o registro com este nome
     const photo = await Gallery.findOrFail(params.id)
+      //pedimos para o noje ler dentro da pasta resources e ver se tem
+      // Alguma fot com o nome registrado no banco caso tenha ele armazena o arquivo
 
     const content = await readFile(Helpers.resourcesPath(photo.url))
-
-    response.header('Content-type', 'image/*').send(content)
-    return
+      //A qui temos a resposta sendo colocada no cadeçalho da resposta
+    response.header('Content-type', 'image/*').send(content)  
 
   }
 
-  /**
-   * Render a form to be used for creating a new gallery.
-   * GET galleries/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
-  /**
-   * Display a single gallery.
-   * GET galleries/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing gallery.
-   * GET galleries/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update gallery details.
-   * PUT or PATCH galleries/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
   async update ({ params, request, response }) {
   }
 

@@ -33,6 +33,11 @@ Route.delete('/posts/:id', 'PostController.destroy')
 
 //Rotas para gallery
       // Esta rota é para salvar uma nova foto na galeria
+      // Ela aceita recebe um title uma description e uma foto,
+      // A foto é indispensavel os outros campos pode ser nullo
+      /**********Essa ROTA VAI PRECISAR DE AUTENTICAÇÃO ******* */
 Route.post('/admin/gallery', 'GalleryController.store')
+// Rota para pegar uma foto
+Route.get('/gallery/:id', 'GalleryController.getPhoto')
 
 

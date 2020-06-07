@@ -7,7 +7,7 @@ class GallerySchema extends Schema {
   up () {
     this.create('galleries', (table) => {
       table.increments()
-      table.string('title',254).notNullable()
+      table.string('title',254)
       table.string('description',254)
       table.string('url',254).notNullable().unique()
       table.timestamps()
