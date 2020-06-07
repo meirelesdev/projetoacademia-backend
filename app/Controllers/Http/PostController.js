@@ -12,6 +12,12 @@ class PostController {
   }
   // Função para criar novo post
   async store ({ request }) {
+
+      // table.string('title', 254).notNullable()
+      // table.string('slug',254).notNullable()
+      // table.text('body').notNullable()
+      // table.string('photo', 254)
+      // table.integer('author')
     // Espero receber, [title, body, photo, author] do frontend
     const dataPost = await request.only(['title','body','photo'])
     // Criando o slug do post
@@ -61,7 +67,7 @@ class PostController {
 
     const post = await Post.findOrFail(params.id)
     /*
-    * Falta implementar segurança
+    * Falta implementar segurança com middleware
     */
     
     await post.delete()

@@ -20,7 +20,19 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
+//Rota para listar todos os posts
 Route.get('/posts', 'PostController.index')
-Route.post('/posts/add', 'PostController.store')
+// Rota para Mostrar um post especifico
 Route.get('/posts/:id', 'PostController.show')
-Route.post('/posts/:id', 'PostController.update')
+// Rota para criar um novo post  --VAI PRECISAR DE UM Middleware
+Route.post('/posts', 'PostController.store')
+// Rota para editar um post -- VAI PRECISAR DE Um Middleware
+Route.put('/posts/:id', 'PostController.update')
+// Rota para deletar um post -- VAI PRECISAR DE Um Middleware
+Route.delete('/posts/:id', 'PostController.destroy')
+
+//Rotas para gallery
+      // Esta rota é para salvar uma nova foto na galeria
+Route.post('/admin/gallery', 'GalleryController.store')
+
+
