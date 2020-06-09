@@ -75,7 +75,7 @@ class GalleryController {
       const photo = await Gallery.findOrFail(params.id)
         //pedimos para o noje ler dentro da pasta resources e ver se tem
         // Alguma fot com o nome registrado no banco caso tenha ele armazena o arquivo
-
+      console.log(photo.url)
       const content = await readFile(Helpers.resourcesPath(photo.url))
         //A qui temos a resposta sendo colocada no cadeçalho da resposta
       response.header('Content-type', 'image/*').send(content)  

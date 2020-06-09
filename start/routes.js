@@ -40,6 +40,6 @@ Route.delete('/admin/posts/:id', 'PostController.destroy')
       /**********Essa ROTA VAI PRECISAR DE AUTENTICAÇÃO ******* */
 Route.post('/admin/gallery', 'GalleryController.store')
 // Rota para pegar uma foto
-Route.get('/gallery/:id', 'GalleryController.getPhoto')
+Route.get('/gallery/:id/photo', 'GalleryController.getPhoto')
 
 
