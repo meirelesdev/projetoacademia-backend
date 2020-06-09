@@ -45,3 +45,7 @@ Route.get('/gallery/:id', 'GalleryController.getPhoto')
 // Rota com todos os Registros do banco da tabela gallery
 Route.get('/gallery', 'GalleryController.index')
 
+
+//user routes
+Route.post('/auths','AuthController.store')
+Route.post('/users','UserController.store')
