@@ -42,8 +42,7 @@ Route.post('/admin/gallery', 'GalleryController.store')
 // Rota para pegar uma foto
 Route.get('/gallery/:id', 'GalleryController.getPhoto')
 
-//Rotas para cadastro e login de usuarios
-Route.post('/user', 'AuthController.store')
-Route.post('/cadastro', 'UserController.store')
+// Rota com todos os Registros do banco da tabela gallery
+Route.get('/gallery', 'GalleryController.index')
 
 
