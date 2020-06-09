@@ -13,8 +13,15 @@ const uploadDir = 'gallery'
 
 class GalleryController {
 
-  async index ({ request, response, view }) {
+  async index ( { response } ) {
+  // Constante que vai receber a lista de todos os registro da tabela gallery  
+    const galleryList = await Gallery.all()
+
+    // Enviando para o frontend a lista dos registros
+    response.send(galleryList)
+
   }
+
   async store ({ request, response }){
     /**ESPERO RECEBERESTES CAMPOS AO CADASTRAR UMA FOTO */
     // string('title',254)
