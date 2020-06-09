@@ -45,4 +45,3 @@ Route.get('/gallery/:id', 'GalleryController.getPhoto')
 // Rota com todos os Registros do banco da tabela gallery
 Route.get('/gallery', 'GalleryController.index')
 
-
