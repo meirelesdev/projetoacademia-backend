@@ -13,8 +13,15 @@ const uploadDir = 'gallery'
 
 class GalleryController {
 
-  async index ({ request, response, view }) {
+  async index ( { response } ) {
+  // Constante que vai receber a lista de todos os registro da tabela gallery  
+    const galleryList = await Gallery.all()
+
+    // Enviando para o frontend a lista dos registros
+    response.send(galleryList)
+
   }
+
   async store ({ request, response }){
     /**ESPERO RECEBERESTES CAMPOS AO CADASTRAR UMA FOTO */
     // string('title',254)
@@ -75,7 +82,7 @@ class GalleryController {
       const photo = await Gallery.findOrFail(params.id)
         //pedimos para o noje ler dentro da pasta resources e ver se tem
         // Alguma fot com o nome registrado no banco caso tenha ele armazena o arquivo
-      console.log(photo.url)
+    
       const content = await readFile(Helpers.resourcesPath(photo.url))
         //A qui temos a resposta sendo colocada no cadeçalho da resposta
       response.header('Content-type', 'image/*').send(content)  
