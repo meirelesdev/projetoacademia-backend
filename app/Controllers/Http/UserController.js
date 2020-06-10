@@ -1,6 +1,7 @@
 'use strict'
 // Chamando o model User Pois iremos usa-lo para carregar os dados do banco
 const User = use('App/Models/User')
+const Auth = use('App/Models/Auth')
 // Helpers sera usado para manipular arquivos 
 const Helpers = use('Helpers')
 // Este é um modulo interno do node para escrever arquivos no servidor
@@ -23,7 +24,10 @@ class UserController {
         //string('photo', 254)
         //boolean('isAdmin')
         // Aqui atribuimos os dados recebidos em uma constante chamada dataUser
-        const dataUser = request.only(['name','email','password','photo','isAdmin'])
+        const dataUser = request.only(['name','email','password','photo'])
+
+        // Por padrao todo usuario que se cadastrar no site não sera
+        dataUser.isAdmin = 0
         // Aqui estamos Pedindo para nosso Model User criar um novo registro no banco
         // e depois retornalo para a constante user
         const user = await User.create(dataUser)
@@ -31,11 +35,11 @@ class UserController {
         return user
     }
 
-    async update({ params, request, response }){
+    async update({ params, request }){
 
       const user = await User.findOrFail(params.id)
 
-      const data = request.only(['name','email','photo','birth_at','level','password'])
+      const data = request.only(['name','email','photo','isAdmin','password'])
 
       user.merge(data)
 
@@ -44,7 +48,8 @@ class UserController {
       return user
   }
 
-    async index() {
+    async index() {   
+         
         return await User.all()
     }
 
@@ -56,10 +61,12 @@ class UserController {
         return user
     }
 
-    async destroy({ params, auth, response}){
+    async destroy({ params }){
+        
+      // esta rota ira deletar qualquer usuarios que não seja admin        
         const user = await User.findOrFail(params.id)
-
-        if(user.id !== auth.user.id) {
+        
+        if(user.isAdmin) {
             return response.status(401).send({ error: 'Not authorized'})
         }
 
