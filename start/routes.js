@@ -41,6 +41,11 @@ Route.delete('/admin/posts/:id', 'PostController.destroy')
 Route.post('/admin/gallery', 'GalleryController.store')
 // Rota para pegar uma foto
 Route.get('/gallery/:id', 'GalleryController.getPhoto')
+
 // Rota com todos os Registros do banco da tabela gallery
 Route.get('/gallery', 'GalleryController.index')
 
+
+//user routes
+Route.post('/auths','AuthController.store')
+Route.post('/users','UserController.store')
