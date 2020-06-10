@@ -10,4 +10,5 @@ tmp
 # The development sqlite file
 database/*.sqlite
 .env
+
 resources/gallery/
