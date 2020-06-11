@@ -62,6 +62,7 @@ Route.put('/admin/users/:id', 'UserController.update')
 Route.get('/admin/users', 'UserController.index')
 // Rota para pegar um usuario
 Route.get('/admin/users/:id', 'UserController.show')
+Route.get('/users/:id', 'UserController.showw')
 //Rota para excluir um usuario
 Route.delete('/admin/users/:id','UserController.destroy')
 
