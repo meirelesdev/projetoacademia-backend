@@ -20,15 +20,6 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
-//Rota para listar todos os posts
-Route.get('/posts', 'PostController.index')
-// Rota para pegar a foto do post
-Route.get('/posts/:id/photo', 'PostController.getPhotoPost')
-// Rota para Mostrar um post especifico
-Route.get('/posts/:id', 'PostController.show')
-
-Route.post('/posts/:id', 'PostController.update')
-
 Route.get('/plans', 'PlanController.index')
 Route.post('/plans', 'PlanController.store')
 
@@ -38,7 +29,12 @@ Route.post('/admin/posts', 'PostController.store')
 Route.put('/admin/posts/:id', 'PostController.update')
 // Rota para deletar um post -- VAI PRECISAR DE Um Middleware
 Route.delete('/admin/posts/:id', 'PostController.destroy')
-
+//Rota para listar todos os posts
+Route.get('/posts', 'PostController.index')
+// Rota para pegar a foto do post
+Route.get('/posts/:id/photo', 'PostController.getPhotoPost')
+// Rota para Mostrar um post especifico
+Route.get('/posts/:id', 'PostController.show')
 //Rotas para gallery
       // Esta rota é para salvar uma nova foto na galeria
       // Ela aceita recebe um title uma description e uma foto,
