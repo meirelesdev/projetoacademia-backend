@@ -15,7 +15,6 @@ const uploadDir = 'uploads'
 class UserController {
 
     async store ({ request }){
-
 /**Estes são os campos que eu espero receber ao cadastrar um usuario */
         //string('name', 80).notNullable().unique()
         //string('email', 254).notNullable().unique()
@@ -26,6 +25,8 @@ class UserController {
         const dataUser = request.only(['name','email','password','photo','isAdmin'])
         // Aqui estamos Pedindo para nosso Model User criar um novo registro no banco
         // e depois retornalo para a constante user
+        dataUser.isAdmin = 0
+
         const user = await User.create(dataUser)
         // Retornamos o novo registro
         return user

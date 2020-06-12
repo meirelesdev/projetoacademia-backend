@@ -68,7 +68,7 @@ class PostController {
     
     // Criando o slug do post
     dataPost.slug = Slug(dataPost.title)
-
+    
     // Salvando os dados no banco
     const post = await Post.create(dataPost)
     
@@ -76,11 +76,10 @@ class PostController {
   }
 
   async show ({ params, response }) {
-    response.implicitEnd = false
     
-    const post  = await Post.findOrFail(params.id)
-    
-    response.send(post)
+    const post = await Post.findOrFail(params.id)
+   
+    return post
   }
 
   async getPhotoPost({ params, response }) {

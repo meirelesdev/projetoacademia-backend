@@ -33,8 +33,10 @@ Route.delete('/admin/posts/:id', 'PostController.destroy')
 Route.get('/posts', 'PostController.index')
 // Rota para pegar a foto do post
 Route.get('/posts/:id/photo', 'PostController.getPhotoPost')
-// Rota para Mostrar um post especifico
+
+// Rota para Mostrar um post especifico pelo id
 Route.get('/posts/:id', 'PostController.show')
+
 //Rotas para gallery
       // Esta rota é para salvar uma nova foto na galeria
       // Ela aceita recebe um title uma description e uma foto,
