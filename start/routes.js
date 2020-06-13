@@ -62,3 +62,11 @@ Route.get('/users/:id', 'UserController.showw')
 //Rota para excluir um usuario
 Route.delete('/admin/users/:id','UserController.destroy')
 
+// Rota para criar um novo treinamento
+Route.post('/admin/training', 'PostController.store')
+// Rota para editar um treinament
+Route.put('/admin/training/:id', 'PostController.update')
+// Rota para deletar um treinamento
+Route.delete('/admin/training/:id', 'PostController.destroy')
+//Rota para listar todos os treinamentos
+Route.get('/training', 'PostController.index')
