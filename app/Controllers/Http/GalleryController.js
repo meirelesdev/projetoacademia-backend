@@ -31,7 +31,6 @@ class GalleryController {
     
     // Aqui estamos pegando somente o title e a description,
     // Pois o arquivo vamos tratar e salvar e depois enviar para o data.url o caminho dele
-    console.log({...request})
     
     const data = request.only(['title','description'])
    // SALVANDO A FOTO
