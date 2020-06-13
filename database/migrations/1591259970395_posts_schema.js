@@ -12,6 +12,7 @@ class PostsSchema extends Schema {
       table.text('body').notNullable()
       table.string('photo', 254)
       table.integer('author')
+      table.string('category', 254)
       table.timestamps()
     })
   }
