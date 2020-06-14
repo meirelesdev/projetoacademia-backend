@@ -26,6 +26,10 @@ class UserController {
         // Aqui estamos Pedindo para nosso Model User criar um novo registro no banco
         // e depois retornalo para a constante user
 
+        if(!dataUser.isAdmin){
+          dataUser.isAdmin = 0
+        }
+        
         const user = await User.create(dataUser)
         
         // Retornamos o novo registro
