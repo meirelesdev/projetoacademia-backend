@@ -101,15 +101,15 @@ class PostController {
     // Pegando os novos dados enviados
     const updatePost = request.only(['title','body','author', 'category'])
     // // Verificamos se foi alterado o titulo
-    // if(updatePost.title === '' || updatePost.title === post.title ){
-    //   updatePost.title = post.title
-    //   // Usuario mudou o titulo, entao criamos um novo slug
-    //   updatePost.slug = Slug(updatePost.title)
-    // }
+    if(updatePost.title === '' || updatePost.title === post.title ){
+      updatePost.title = post.title
+      // Usuario mudou o titulo, entao criamos um novo slug
+      updatePost.slug = Slug(updatePost.title)
+    }
     // // Verificamos se foi alterado o texto do post'
-    // if(updatePost.body === '' || updatePost.body === post.body ){
-    //   updatePost.body = post.body
-    // }
+    if(updatePost.body === '' || updatePost.body === post.body ){
+      updatePost.body = post.body
+    }
     // Pegamos o arquivos caso enviado
     const filePost = request.file('file', {
       maxSize: '2mb',
@@ -122,7 +122,7 @@ class PostController {
             await filePost.move(Helpers.resourcesPath(uploadDir), {
               name,
               overwrite: true
-            })
+      })
             // Verificando se o arquivo foi movido para a pasta 
             // para vc verificar, ele sera salvo em resources/photposts/nomedoarquivo
             if (!filePost.moved()) {
@@ -135,9 +135,9 @@ class PostController {
             //Atribuindo o caminho da foto, para salvar no banco
             updatePost.photo = `${uploadDir}/${name}`
     }
-    if(updatePost.author === '' || updatePost.author === post.author ){
-      updatePost.author = post.author
-    }
+    // if(updatePost.author === '' || updatePost.author === post.author ){
+    //   updatePost.author = post.author
+    // }
     if(updatePost.category === '' || updatePost.category === post.category ){
       updatePost.category = post.category
     }
