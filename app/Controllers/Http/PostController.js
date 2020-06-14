@@ -7,6 +7,7 @@ const Slug = require('slug')
 const Helpers = use('Helpers')
 const fs = use('fs')
 const readFile = Helpers.promisify(fs.readFile)
+const deleteFile = Helpers.promisify(fs.unlink)
 const uploadDir = 'photoposts'
 
 class PostController {
@@ -68,7 +69,7 @@ class PostController {
     
     // Criando o slug do post
     dataPost.slug = Slug(dataPost.title)
-
+    
     // Salvando os dados no banco
     const post = await Post.create(dataPost)
     
@@ -76,11 +77,10 @@ class PostController {
   }
 
   async show ({ params, response }) {
-    response.implicitEnd = false
     
-    const post  = await Post.findOrFail(params.id)
-    
-    response.send(post)
+    const post = await Post.findOrFail(params.id)
+   
+    return post
   }
 
   async getPhotoPost({ params, response }) {
@@ -151,12 +151,11 @@ class PostController {
   }
 
   async destroy ({ params }) {
-
+//Buscamos no banco de dados o registro
     const post = await Post.findOrFail(params.id)
-    /*
-    * Falta implementar segurança com middleware
-    */
-    
+//Deletmos a foto que esta no servidor
+    await deleteFile(Helpers.resourcesPath(post.photo))
+    // Deletamos o registro do banco
     await post.delete()
 
   }
