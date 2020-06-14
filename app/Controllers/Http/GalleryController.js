@@ -8,6 +8,7 @@ const fs = use('fs')
 // Esta constante ainda nao sei bem para que serve mas acredito que é o metodo do fs
 // que realmente este o arquivo no servidor
 const readFile = Helpers.promisify(fs.readFile)
+const deleFile = Helpers.promisify(fs.unlink)
 // Pasta onde sera salvo os arquivos
 const uploadDir = 'gallery'
 
@@ -79,7 +80,7 @@ class GalleryController {
       // Pegamos o id passado no params pelo usuario
       // E pesquisamos no banco o registro com este nome
       const photo = await Gallery.findOrFail(params.id)
-        //pedimos para o noje ler dentro da pasta resources e ver se tem
+        //pedimos para o noje ler deconsole.log("salvando senha")ntro da pasta resources e ver se tem
         // Alguma fot com o nome registrado no banco caso tenha ele armazena o arquivo
     
       const content = await readFile(Helpers.resourcesPath(photo.url))
@@ -91,16 +92,16 @@ class GalleryController {
   async update ({ params, request, response }) {
   }
 
-  /**
-   * Delete a gallery with id.
-   * DELETE galleries/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+  async destroy ({ params }) {
+    // Pegamos o registro do banco
+    let photo = await Gallery.findOrFail(params.id)
+  //  Deletamos o arquivo do servidor
+    await deleFile(Helpers.resourcesPath(photo.url))
+    // Deletamos o registro banco
+    await photo.delete()
+      
   }
+
 }
 
 module.exports = GalleryController

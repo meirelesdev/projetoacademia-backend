@@ -7,6 +7,7 @@ const Slug = require('slug')
 const Helpers = use('Helpers')
 const fs = use('fs')
 const readFile = Helpers.promisify(fs.readFile)
+const deleteFile = Helpers.promisify(fs.unlink)
 const uploadDir = 'photoposts'
 
 class PostController {
@@ -150,12 +151,11 @@ class PostController {
   }
 
   async destroy ({ params }) {
-
+//Buscamos no banco de dados o registro
     const post = await Post.findOrFail(params.id)
-    /*
-    * Falta implementar segurança com middleware
-    */
-    
+//Deletmos a foto que esta no servidor
+    await deleteFile(Helpers.resourcesPath(post.photo))
+    // Deletamos o registro do banco
     await post.delete()
 
   }

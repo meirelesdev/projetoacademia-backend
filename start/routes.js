@@ -48,21 +48,24 @@ Route.get('/gallery/:id', 'GalleryController.getPhoto')
 
 // Rota com todos os Registros do banco da tabela gallery
 Route.get('/gallery', 'GalleryController.index')
+// Rota para deletar Foto
+Route.delete('/admin/gallery/:id', 'GalleryController.destroy')
 
 //user routes
 // Esta rota verifica se o usuario esta cadastrado no sistema
 Route.post('/auths','AuthController.store')
 // Esta rota registra um novo usuario
 Route.post('/users','UserController.store')
-// Esta rota atualiza os dados do usuario
-Route.put('/admin/users/:id', 'UserController.update')
+
 // Rota para listar os usuarios registrados
 Route.get('/admin/users', 'UserController.index')
-// Rota para pegar um usuario
-Route.get('/admin/users/:id', 'UserController.show')
-Route.get('/users/:id', 'UserController.showw')
+
 //Rota para excluir um usuario
 Route.delete('/admin/users/:id','UserController.destroy')
+// Esta rota atualiza os dados do usuario
+Route.put('/admin/users/:id', 'UserController.update')
+// Rota para pegar um usuario
+Route.get('/admin/users/:id', 'UserController.show')
 
 // Rota para criar um novo treinamento
 Route.post('/admin/training', 'PostController.store')
