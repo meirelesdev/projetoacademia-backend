@@ -86,4 +86,4 @@ Route.get('/training', 'TrainingController.index')
 // Rota para pegar um usuario
 Route.get('/admin/trainings/:id', 'TrainingController.show')
 // Rota para pegar um usuario
-Route.get('/trainings/:type_training', 'TrainingController.see')
+Route.get('/trainings/:type_training', 'TrainingController.see') 
