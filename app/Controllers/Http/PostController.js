@@ -103,9 +103,9 @@ class PostController {
     // // Verificamos se foi alterado o titulo
     if(updatePost.title === '' || updatePost.title === post.title ){
       updatePost.title = post.title
-      // Usuario mudou o titulo, entao criamos um novo slug
-      updatePost.slug = Slug(updatePost.title)
+      
     }
+    updatePost.slug = Slug(updatePost.title)
     // // Verificamos se foi alterado o texto do post'
     if(updatePost.body === '' || updatePost.body === post.body ){
       updatePost.body = post.body
