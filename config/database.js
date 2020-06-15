@@ -46,16 +46,15 @@ module.exports = {
   | Here we define connection settings for MySQL database.
   |
   | npm i --save mysql
-  |
+  |mysql://b0f29a6f31418d:e736a404@us-cdbr-east-05.cleardb.net/heroku_8df5d5d666ba6b7?reconnect=true 
   */
   mysql: {
     client: 'mysql',
     connection: {
-      host: Env.get('DB_HOST', 'localhost'),
-      port: Env.get('DB_PORT', ''),
-      user: Env.get('DB_USER', 'root'),
-      password: Env.get('DB_PASSWORD', ''),
-      database: Env.get('DB_DATABASE', 'adonis')
+      host: "us-cdbr-east-05.cleardb.net",
+      user: "b0f29a6f31418d",
+      password: "e736a404",
+      database: ""
     },
     debug: Env.get('DB_DEBUG', false)
   },
