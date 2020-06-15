@@ -22,6 +22,10 @@ class GalleryController {
     response.send(galleryList)
 
   }
+  async show ( { params }){
+    const photo = await Gallery.findOrFail(params.id)
+    return photo
+  }
 
   async store ({ request, response }){
     /**ESPERO RECEBERESTES CAMPOS AO CADASTRAR UMA FOTO */
@@ -52,6 +56,7 @@ class GalleryController {
     // A função new Date.now() nos dara uma combilação numerica que nao se repetira 
     // Fazendo com que cada arquivo tenha um nome diferente
     const name = `${Date.now()}_gallery.${filePhoto.extname}`
+    
     // Aqui estamos movendo o arquivo da pasta temporaria para o servidor
     await filePhoto.move(Helpers.resourcesPath(uploadDir), {
       name,
@@ -89,7 +94,51 @@ class GalleryController {
 
   }
 
-  async update ({ params, request, response }) {
+  async update ({ params, request }) {
+
+    const photo = await Gallery.findOrFail(params.id)
+    
+    const newPhoto = request.only(['title', 'description'])
+    
+    newPhoto.url = photo.url
+
+    const newFile = request.file('file', {
+      maxSize: '2mb',
+      allowedExtensions: ['jpg', 'png', 'jpeg']
+    })
+    
+    if(newFile){
+      //se existir um novo arquivo deletamos o antigo
+      await deleFile(Helpers.resourcesPath(photo.url))
+
+      //  damos o nome para o novo arquivo
+      const name = `${Date.now()}_gallery.${newFile.extname}`
+      
+      // Aqui estamos movendo o novo arquivo da pasta temporaria para o servidor
+      await newFile.move(Helpers.resourcesPath(uploadDir), {
+        name,
+        overwrite: true
+        })
+          // Verificando se o arquivo foi movido para a pasta 
+          // para vc verificar, ele sera salvo em resources/gallery/nomedoarquivo
+          if (!newFile.moved()) {
+            // Caso nao, retorna um JSON com o erro
+            response.status(400).json({'error': newFile.error()})
+            return
+          }
+      // TERMINOU DE SALVAR A FOTO
+
+      //Atribuindo o caminho da foto, para salvar no banco
+      newPhoto.url = `${uploadDir}/${name}`
+
+    }
+    //Fazemos o merge dos dados anteriores com os novos dados
+    photo.merge(newPhoto)
+    //Agora salvamos no banco
+    await photo.save()
+    //Retornamos o resultado
+    return photo
+
   }
 
   async destroy ({ params }) {
