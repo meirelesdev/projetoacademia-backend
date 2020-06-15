@@ -49,7 +49,7 @@ class PostController {
     // 
     // A função new Date.now() nos dara uma combilação numerica que nao se repetira 
     // Fazendo com que cada arquivo tenha um nome diferente
-    /*const name = `${Date.now()}_post.${filePost.extname}`
+    const name = `${Date.now()}_post.${filePost.extname}`
     // Aqui estamos movendo o arquivo da pasta temporaria para o servidor
     await filePost.move(Helpers.resourcesPath(uploadDir), {
       name,
@@ -72,9 +72,8 @@ class PostController {
     
     // Salvando os dados no banco
     const post = await Post.create(dataPost)
-    */
-    return "postERS"
     
+    return post
   }
 
   async show ({ params, response }) {

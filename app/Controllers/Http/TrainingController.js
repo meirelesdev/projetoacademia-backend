@@ -16,6 +16,11 @@ class TrainingController {
         return training
     }
 
+    async see({ params }){
+        const type_training = params.type_training
+        return await Database.table('trainings').where('type_training', type_training)
+    }
+
     async index() {
         return await Training.all()
     }
