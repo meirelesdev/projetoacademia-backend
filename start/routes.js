@@ -75,3 +75,8 @@ Route.put('/admin/training/:id', 'PostController.update')
 Route.delete('/admin/training/:id', 'PostController.destroy')
 //Rota para listar todos os treinamentos
 Route.get('/training', 'PostController.index')
+
+//Rotas para contatos/mensagens
+Route.group(()=>{
+  Route.resource('contacts', 'ContactController').apiOnly()
+}).prefix('admin')
