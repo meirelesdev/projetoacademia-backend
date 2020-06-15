@@ -7,6 +7,7 @@ const Slug = require('slug')
 const Helpers = use('Helpers')
 const fs = use('fs')
 const readFile = Helpers.promisify(fs.readFile)
+const deleteFile = Helpers.promisify(fs.unlink)
 const uploadDir = 'photoposts'
 
 class PostController {
@@ -68,7 +69,7 @@ class PostController {
     
     // Criando o slug do post
     dataPost.slug = Slug(dataPost.title)
-
+    
     // Salvando os dados no banco
     const post = await Post.create(dataPost)
     */
@@ -77,11 +78,10 @@ class PostController {
   }
 
   async show ({ params, response }) {
-    response.implicitEnd = false
     
-    const post  = await Post.findOrFail(params.id)
-    
-    response.send(post)
+    const post = await Post.findOrFail(params.id)
+   
+    return post
   }
 
   async getPhotoPost({ params, response }) {
@@ -102,15 +102,15 @@ class PostController {
     // Pegando os novos dados enviados
     const updatePost = request.only(['title','body','author', 'category'])
     // // Verificamos se foi alterado o titulo
-    // if(updatePost.title === '' || updatePost.title === post.title ){
-    //   updatePost.title = post.title
-    //   // Usuario mudou o titulo, entao criamos um novo slug
-    //   updatePost.slug = Slug(updatePost.title)
-    // }
+    if(updatePost.title === '' || updatePost.title === post.title ){
+      updatePost.title = post.title
+      // Usuario mudou o titulo, entao criamos um novo slug
+      updatePost.slug = Slug(updatePost.title)
+    }
     // // Verificamos se foi alterado o texto do post'
-    // if(updatePost.body === '' || updatePost.body === post.body ){
-    //   updatePost.body = post.body
-    // }
+    if(updatePost.body === '' || updatePost.body === post.body ){
+      updatePost.body = post.body
+    }
     // Pegamos o arquivos caso enviado
     const filePost = request.file('file', {
       maxSize: '2mb',
@@ -123,7 +123,7 @@ class PostController {
             await filePost.move(Helpers.resourcesPath(uploadDir), {
               name,
               overwrite: true
-            })
+      })
             // Verificando se o arquivo foi movido para a pasta 
             // para vc verificar, ele sera salvo em resources/photposts/nomedoarquivo
             if (!filePost.moved()) {
@@ -136,9 +136,9 @@ class PostController {
             //Atribuindo o caminho da foto, para salvar no banco
             updatePost.photo = `${uploadDir}/${name}`
     }
-    if(updatePost.author === '' || updatePost.author === post.author ){
-      updatePost.author = post.author
-    }
+    // if(updatePost.author === '' || updatePost.author === post.author ){
+    //   updatePost.author = post.author
+    // }
     if(updatePost.category === '' || updatePost.category === post.category ){
       updatePost.category = post.category
     }
@@ -152,12 +152,11 @@ class PostController {
   }
 
   async destroy ({ params }) {
-
+//Buscamos no banco de dados o registro
     const post = await Post.findOrFail(params.id)
-    /*
-    * Falta implementar segurança com middleware
-    */
-    
+//Deletmos a foto que esta no servidor
+    await deleteFile(Helpers.resourcesPath(post.photo))
+    // Deletamos o registro do banco
     await post.delete()
 
   }
