@@ -9,7 +9,7 @@ class TrainingSchema extends Schema {
       table.increments()
       table.string('name_training', 254).notNullable()
       table.string('type_training', 254).notNullable().unique()
-      table.text('description').notNullable().unique()
+      table.text('description').notNullable()
       table.timestamps()
     })
   }

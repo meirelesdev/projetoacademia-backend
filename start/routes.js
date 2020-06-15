@@ -45,7 +45,10 @@ Route.get('/posts/:id', 'PostController.show')
 Route.post('/admin/gallery', 'GalleryController.store')
 // Rota para pegar uma foto
 Route.get('/gallery/:id', 'GalleryController.getPhoto')
-
+//Rota para atualiza photo na galeria
+Route.put('/admin/gallery/:id', 'GalleryController.update')
+// Rota para retorna registro do banco da galeria
+Route.get('/admin/gallery/:id','GalleryController.show')
 // Rota com todos os Registros do banco da tabela gallery
 Route.get('/gallery', 'GalleryController.index')
 // Rota para deletar Foto
@@ -54,8 +57,12 @@ Route.delete('/admin/gallery/:id', 'GalleryController.destroy')
 //user routes
 // Esta rota verifica se o usuario esta cadastrado no sistema
 Route.post('/auths','AuthController.store')
+// Esta rota obtem os dados do usuário logado
+Route.get('/auths/profile','AuthController.profile').middleware('auth')
 // Esta rota registra um novo usuario
 Route.post('/users','UserController.store')
+
+
 
 // Rota para listar os usuarios registrados
 Route.get('/admin/users', 'UserController.index')
@@ -72,9 +79,14 @@ Route.post('/admin/training', 'TrainingController.store')
 Route.put('/admin/trainings/:id', 'TrainingController.update')
 // Rota para deletar um treinamento
 Route.delete('/admin/training/:id', 'TrainingController.destroy')
-//Rota para listar todos os treinamentos
+
+//Rotas para contatos/mensagens
+Route.group(()=>{
+  Route.resource('contacts', 'ContactController').apiOnly()
+}).prefix('admin')
 Route.get('/training', 'TrainingController.index')
 // Rota para pegar um treinamento
 Route.get('/admin/trainings/:id', 'TrainingController.show')
 // Rota para pegar um treinamento
-Route.get('/trainings/:type_training', 'TrainingController.see')
+Route.get('/trainings/:type_training', 'TrainingController.see') 
+

@@ -12,6 +12,10 @@ class AuthController {
 
         return {user, token}
     }
+
+    async profile({ auth, response }) {
+        return await auth.getUser()
+    }
     
 }
 
