@@ -8,11 +8,8 @@ class TrainingSchema extends Schema {
     this.create('trainings', (table) => {
       table.increments()
       table.string('name_training', 254).notNullable()
-      table.string('description', 254).notNullable().unique()
-      table.string('series', 80)
-      table.integer('repetition', 80).notNullable()
-      table.integer('mat_id', 254)
-      table.float('interval', '', 2)
+      table.string('type_training', 254).notNullable().unique()
+      table.text('description').notNullable().unique()
       table.timestamps()
     })
   }
