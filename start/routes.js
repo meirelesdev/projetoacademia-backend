@@ -69,12 +69,12 @@ Route.get('/admin/users/:id', 'UserController.show')
 // Rota para criar um novo treinamento
 Route.post('/admin/training', 'TrainingController.store')
 // Rota para editar um treinament
-Route.put('/admin/training/:id', 'TrainingController.update')
+Route.put('/admin/trainings/:id', 'TrainingController.update')
 // Rota para deletar um treinamento
 Route.delete('/admin/training/:id', 'TrainingController.destroy')
 //Rota para listar todos os treinamentos
 Route.get('/training', 'TrainingController.index')
-// Rota para pegar um usuario
+// Rota para pegar um treinamento
 Route.get('/admin/trainings/:id', 'TrainingController.show')
-// Rota para pegar um usuario
+// Rota para pegar um treinamento
 Route.get('/trainings/:type_training', 'TrainingController.see')

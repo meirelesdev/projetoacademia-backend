@@ -39,13 +39,9 @@ class TrainingController {
     }
 
     async destroy({ params, auth, response }) {
-        const user = await User.findOrFail(params.id)
+        const training = await Training.findOrFail(params.id)
 
-        if (user.id !== auth.user.id) {
-            return response.status(401).send({ error: 'Not authorized' })
-        }
-
-        await user.delete()
+        await training.delete()
 
     }
 }
