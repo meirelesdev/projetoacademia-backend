@@ -22,7 +22,7 @@ class UserController {
         //string('photo', 254)
         //boolean('isAdmin')
         // Aqui atribuimos os dados recebidos em uma constante chamada dataUser
-        const dataUser = request.only(['name','email','password','photo','isAdmin'])
+        const dataUser = request.only(['name','email','password','photo','isAdmin','type_training'])
         // Aqui estamos Pedindo para nosso Model User criar um novo registro no banco
         // e depois retornalo para a constante user
 
@@ -40,7 +40,7 @@ class UserController {
 
       const user = await User.findOrFail(params.id)
 
-      const data = request.only(['name','email','photo','isAdmin','password'])
+      const data = request.only(['name','email','photo','isAdmin','password','type_training'])
 
       user.merge(data)
 

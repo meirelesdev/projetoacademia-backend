@@ -59,7 +59,6 @@ Route.post('/users','UserController.store')
 
 // Rota para listar os usuarios registrados
 Route.get('/admin/users', 'UserController.index')
-
 //Rota para excluir um usuario
 Route.delete('/admin/users/:id','UserController.destroy')
 // Esta rota atualiza os dados do usuario
@@ -68,10 +67,14 @@ Route.put('/admin/users/:id', 'UserController.update')
 Route.get('/admin/users/:id', 'UserController.show')
 
 // Rota para criar um novo treinamento
-Route.post('/admin/training', 'PostController.store')
+Route.post('/admin/training', 'TrainingController.store')
 // Rota para editar um treinament
-Route.put('/admin/training/:id', 'PostController.update')
+Route.put('/admin/training/:id', 'TrainingController.update')
 // Rota para deletar um treinamento
-Route.delete('/admin/training/:id', 'PostController.destroy')
+Route.delete('/admin/training/:id', 'TrainingController.destroy')
 //Rota para listar todos os treinamentos
-Route.get('/training', 'PostController.index')
+Route.get('/training', 'TrainingController.index')
+// Rota para pegar um usuario
+Route.get('/admin/trainings/:id', 'TrainingController.show')
+// Rota para pegar um usuario
+Route.get('/trainings/:type_training', 'TrainingController.see')

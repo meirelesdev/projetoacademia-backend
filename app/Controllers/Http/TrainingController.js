@@ -1,26 +1,41 @@
 'use strict'
 
 const Training = use('App/Models/Training.js')
-
+const Database = use('Database')
 class TrainingController {
 
     async store({ request }) {
-        const dataTraining = request.only(['name_training', 'description', 'series', 'repetition', 'interval', 'mat_id'])
+        const dataTraining = request.only(['name_training', 'type_training', 'description'])
         const training = await Training.create(dataTraining)
         return training
     }
 
+    async show({ params }){
+        const training = await Training.findOrFail(params.id)
+
+        return training
+    }
+
+    async see({ params }){
+        const type_training = params.type_training
+        return await Database.table('trainings').where('type_training', type_training)
+    }
+
+    async index() {
+        return await Training.all()
+    }
+
     async update({ params, request, response }) {
 
-        const user = await User.findOrFail(params.id)
+        const training = await Training.findOrFail(params.id)
 
-        const data = request.only(['name_training', 'description', 'series', 'repetition', 'interval', 'mat_id'])
+        const data = request.only(['name_training', 'type_training', 'description'])
 
-        user.merge(data)
+        training.merge(data)
 
-        await user.save()
+        await training.save()
 
-        return user
+        return training
     }
 
     async destroy({ params, auth, response }) {
