@@ -22,4 +22,3 @@ class ContactsSchema extends Schema {
 }
 
 module.exports = ContactsSchema
-
