@@ -57,8 +57,12 @@ Route.delete('/admin/gallery/:id', 'GalleryController.destroy')
 //user routes
 // Esta rota verifica se o usuario esta cadastrado no sistema
 Route.post('/auths','AuthController.store')
+// Esta rota obtem os dados do usuário logado
+Route.get('/auths/profile','AuthController.profile').middleware('auth')
 // Esta rota registra um novo usuario
 Route.post('/users','UserController.store')
+
+
 
 // Rota para listar os usuarios registrados
 Route.get('/admin/users', 'UserController.index')
