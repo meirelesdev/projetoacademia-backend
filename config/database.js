@@ -54,7 +54,7 @@ module.exports = {
       host: "us-cdbr-east-05.cleardb.net",
       user: "b0f29a6f31418d",
       password: "e736a404",
-      database: ""
+      database: "heroku_8df5d5d666ba6b7"
     },
     debug: Env.get('DB_DEBUG', false)
   },
