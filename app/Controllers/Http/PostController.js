@@ -102,8 +102,8 @@ class PostController {
     const updatePost = request.only(['title','body','author', 'category'])
     // // Verificamos se foi alterado o titulo
     if(updatePost.title === '' || updatePost.title === post.title ){
-      updatePost.title = post.title
       
+      updatePost.title = post.title
     }
     updatePost.slug = Slug(updatePost.title)
     // // Verificamos se foi alterado o texto do post'
@@ -117,8 +117,11 @@ class PostController {
     })
     // Verificamos se foi enviado nova foton
       if(filePost){
+          // Se a foto for enviada no update deletamos a foto anterior    
+          await deleteFile(Helpers.resourcesPath(post.photo))
+        //  damos o nome para o novo arquivo
             const name = `${Date.now()}_post.${filePost.extname}`
-            // Aqui estamos movendo o arquivo da pasta temporaria para o servidor
+            // Aqui estamos movendo o novo arquivo da pasta temporaria para o servidor
             await filePost.move(Helpers.resourcesPath(uploadDir), {
               name,
               overwrite: true
