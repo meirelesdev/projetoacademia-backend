@@ -45,7 +45,10 @@ Route.get('/posts/:id', 'PostController.show')
 Route.post('/admin/gallery', 'GalleryController.store')
 // Rota para pegar uma foto
 Route.get('/gallery/:id', 'GalleryController.getPhoto')
-
+//Rota para atualiza photo na galeria
+Route.put('/admin/gallery/:id', 'GalleryController.update')
+// Rota para retorna registro do banco da galeria
+Route.get('/admin/gallery/:id','GalleryController.show')
 // Rota com todos os Registros do banco da tabela gallery
 Route.get('/gallery', 'GalleryController.index')
 // Rota para deletar Foto
