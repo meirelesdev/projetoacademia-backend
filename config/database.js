@@ -51,10 +51,18 @@ module.exports = {
   mysql: {
     client: 'mysql',
     connection: {
-      host: "us-cdbr-east-05.cleardb.net",
-      user: "b0f29a6f31418d",
-      password: "e736a404",
-      database: "heroku_8df5d5d666ba6b7"
+      // host: "us-cdbr-east-05.cleardb.net",
+      // user: "b0f29a6f31418d",
+      // password: "e736a404",
+      // database: "heroku_8df5d5d666ba6b7"
+// HEROKU VELTER
+      host: Env.get('DB_HOST', 'localhost'),
+      port: Env.get('DB_PORT', ''),
+      user: Env.get('DB_USER', 'root'),
+      password: Env.get('DB_PASSWORD', ''),
+      database: Env.get('DB_DATABASE', 'adonis')
+
+
     },
     debug: Env.get('DB_DEBUG', false)
   },
